@@ -1,15 +1,16 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(imu_transform)
+project(sending_message)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
-  sensor_msgs
-  std_msgs
-  tf
+   roscpp
+   rospy
+   std_msgs
+   message_generation
 )
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -44,12 +45,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
-## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+##Generate messages in the 'msg' folder
+add_message_files(
+  FILES
+   my_first_msg.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -66,10 +66,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   sensor_msgs#   std_msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs  # Or other packages containing msgs
+ )
 
 ###################################
 ## catkin specific configuration ##
@@ -81,9 +81,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
+
+CATKIN_DEPENDS message_runtime
 #  INCLUDE_DIRS include
-#  LIBRARIES imu_transform
-#  CATKIN_DEPENDS geometry_msgs sensor_msgs std_msgs tf
+#  LIBRARIES sending_message
+#  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
 
@@ -94,24 +96,21 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
-include_directories(
-  ${catkin_INCLUDE_DIRS}
-)
 
 ## Declare a cpp library
-# add_library(imu_transform
-#   src/${PROJECT_NAME}/imu_transform.cpp
+# add_library(sending_message
+#   src/${PROJECT_NAME}/sending_message.cpp
 # )
 
 ## Declare a cpp executable
-##add_executable(imu_transform_node src/imuTransform.cpp)
+# add_executable(sending_message_node src/sending_message_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(imu_transform_node imu_transform_generate_messages_cpp)
+# add_dependencies(sending_message_node sending_message_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(imu_transform_node
+# target_link_libraries(sending_message_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -130,7 +129,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS imu_transform imu_transform_node
+# install(TARGETS sending_message sending_message_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -155,14 +154,10 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_imu_transform.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_sending_message.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
-add_executable(imu_transform_node src/imuTransformBroadcaster.cpp)
-target_link_libraries(imu_transform_node ${catkin_LIBRARIES})

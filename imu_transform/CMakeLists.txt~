@@ -165,4 +165,6 @@ include_directories(
 
 
 add_executable(imu_transform_node src/imuTransformBroadcaster.cpp)
+add_executable(imu_transform_node src/imuTransformListener.cpp)
+target_link_libraries(imu_transform_node ${catkin_LIBRARIES})
 target_link_libraries(imu_transform_node ${catkin_LIBRARIES})

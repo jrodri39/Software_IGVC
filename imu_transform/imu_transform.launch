@@ -1,0 +1,7 @@
+<launch>
+
+  <include file="$(find imu_transform)/microstrain_3dmgx2.launch" />
+
+  <node pkg="imu_transform" type="imu_transform_node" name="imu_transform_node" />
+
+</launch>
